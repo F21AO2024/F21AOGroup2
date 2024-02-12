@@ -1,4 +1,4 @@
-const ROUTES = [
+export const ROUTES = [
   {
     url: "/ward",
     auth: true,
@@ -22,5 +22,3 @@ const ROUTES = [
     },
   },
 ];
-
-module.exports = { ROUTES };
