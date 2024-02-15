@@ -5,9 +5,9 @@ export const ROUTES = [
     proxy: {
       target: "http://localhost:3001",
       changeOrigin: true,
-      pathRewrite: {
-        "^/wards": "",
-      },
+      // pathRewrite: {
+      //   "^/wards": "",
+      // },
     },
   },
   {
@@ -16,9 +16,9 @@ export const ROUTES = [
     proxy: {
       target: "http://localhost:3002",
       changeOrigin: true,
-      pathRewrite: {
-        "^/patient": "",
-      },
+      // pathRewrite: {
+      //   "^/patient": "",
+      // },
     },
   },
 ];

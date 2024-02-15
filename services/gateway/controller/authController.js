@@ -1,19 +1,20 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
+
+import dotenv from "dotenv";
 
 dotenv.config();
 const prisma = new PrismaClient();
 
 export const register = async (req, res) => {
-  const { username, password, firstName, lastName, role } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const userData = req.body;
+  const hashedPassword = await bcrypt.hash(userData.password, 10);
   try {
-    // check if username already exists
-    const userExists = await prisma.user.findUnique({
+    const userExists = await prisma.hospitalEmployee.findFirst({
       where: {
-        username,
+        username: userData.username,
       },
     });
 
@@ -21,13 +22,10 @@ export const register = async (req, res) => {
       return res.status(400).json({ error: "Username already exists" });
     }
 
-    const user = await prisma.user.create({
+    const user = await prisma.hospitalEmployee.create({
       data: {
-        firstName,
-        lastName,
-        role,
-        username,
         password: hashedPassword,
+        ...userData
       },
     });
 
@@ -44,7 +42,8 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await prisma.user.findUnique({
+
+    const user = await prisma.hospitalEmployee.findFirst({
       where: {
         username,
       },
@@ -73,7 +72,8 @@ export const login = async (req, res) => {
 export const changePassword = async (req, res) => {
   try {
     const { username, oldPassword, newPassword } = req.body;
-    const user = await prisma.user.findUnique({
+
+    const user = await prisma.hospitalEmployee.findFirst({
       where: {
         username,
       },
@@ -91,7 +91,7 @@ export const changePassword = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    const updatedUser = await prisma.user.update({
+    const updatedUser = await prisma.hospitalEmployee.update({
       where: {
         username,
       },
