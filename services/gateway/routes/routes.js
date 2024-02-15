@@ -3,7 +3,7 @@ export const ROUTES = [
     url: "/ward",
     auth: true,
     proxy: {
-      target: "http://localhost:3001",
+      target: "http://127.0.0.1:3001",
       changeOrigin: true,
       // pathRewrite: {
       //   "^/wards": "",
@@ -14,7 +14,7 @@ export const ROUTES = [
     url: "/patient",
     auth: false,
     proxy: {
-      target: "http://localhost:3002",
+      target: "http://127.0.0.1:3002",
       changeOrigin: true,
       // pathRewrite: {
       //   "^/patient": "",
