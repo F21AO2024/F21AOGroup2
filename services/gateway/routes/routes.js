@@ -21,4 +21,13 @@ export const ROUTES = [
       // },
     },
   },
+  {
+    url: "/labtreatment",
+    auth: false,
+    proxy: {
+      target: "http://127.0.0.1:3003",
+      changeOrigin: true,
+
+    },
+  },
 ];
