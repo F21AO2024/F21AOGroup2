@@ -4,14 +4,19 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const verifyToken = (req, res, next) => {
-  const token = req.header("x-access-token");
+  let token = req.header("authorization");
 
+  if (token.startsWith("Bearer ")) {
+    token = token.slice(7, token.length);
+  }
+  
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
   }
 
-  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
+      console.log(err);
       return res.status(401).send({ message: "Unauthorized!" });
     }
     req.userId = decoded.id;

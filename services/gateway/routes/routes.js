@@ -1,6 +1,6 @@
 export const ROUTES = [
   {
-    url: "/ward",
+    url: "/api/v1/ward",
     auth: true,
     proxy: {
       target: "http://127.0.0.1:3001",
@@ -11,7 +11,7 @@ export const ROUTES = [
     },
   },
   {
-    url: "/patient",
+    url: "/api/v1/patient",
     auth: false,
     proxy: {
       target: "http://127.0.0.1:3002",
@@ -22,8 +22,8 @@ export const ROUTES = [
     },
   },
   {
-    url: "/labtreatment",
-    auth: false,
+    url: "/api/v1/labtreatment",
+    auth: true,
     proxy: {
       target: "http://127.0.0.1:3003",
       changeOrigin: true,
