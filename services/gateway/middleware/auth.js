@@ -11,27 +11,20 @@ export const verifyToken = (req, res, next) => {
   }
   
   if (!token) {
-    return res.status(403).send({ message: "No token provided!" });
+    return res.status(403).send({ message: "No token provided, you need to provide your token in the HeadersL x-access-token : <your-token>" });
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
-      console.log(err);
-      return res.status(401).send({ message: "Unauthorized!" });
+      return res.status(401).send({ message: "Unauthorized, the token is expired or invalid" });
     }
     req.userId = decoded.id;
+    req.user = decoded;
+    console.log(req.user)
     next();
   });
 };
 
 
-export const setupAuth = (app, routes) => {
-  routes.forEach(r => {
-      if (r.auth) {
-          app.use(r.url, verifyToken, function (req, res, next) {
-              next();
-          });
-      }
-  });
-}
+
 
