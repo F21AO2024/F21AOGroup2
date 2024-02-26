@@ -5,7 +5,7 @@ http://localhost:3002/patient/register
 */
 export const ROUTES = [
   {
-    url: "/ward",
+    url: "/api/v1/ward",
     auth: true,
     proxy: {
       target: "http://127.0.0.1:3001",
@@ -15,29 +15,28 @@ export const ROUTES = [
       // },
     },
   },
-  {//initial oatient registration - DONE, WORKING
-    url: "/api/v1/patient/register",
-    method: "post",
-    auth: true,
-    role: ['Clerk'],
-    proxy: {
-      target: "http://127.0.0.1:3002",
-      changeOrigin: true,
-    },//TODO: add v2 later
-  },
+  //{//initial oatient registration - DONE, WORKING
+  //  url: "/api/v1/patient/register",
+  //  method: "post",
+  //  auth: true,
+  //  role: ['Clerk'],
+  //  proxy: {
+  //    target: "http://127.0.0.1:3002",
+  //    changeOrigin: true,
+  //  },//TODO: add v2 later
+  //},
   {
-    url: "/api/v1/patient/details",
-    method: "post",
+    url: "/api/v1/patient",
     auth: true,
-    role: ['Doctor', 'Nurse', 'Paramedic'],
+    // role: ['Doctor', 'Nurse', 'Paramedic'],
     proxy: {
       target: "http://127.0.0.1:3002",
       changeOrigin: true,
     },
   },
   {
-    url: "/labtreatment",
-    auth: false,
+    url: "/api/v1/labtreatment",
+    auth: true,
     proxy: {
       target: "http://127.0.0.1:3003",
       changeOrigin: true,

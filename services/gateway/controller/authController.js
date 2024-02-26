@@ -54,8 +54,8 @@ export const register = async (req, res) => {
 
     const user = await prisma.hospitalEmployee.create({
       data: {
-        ...userData,
-        password: hashedPassword,
+      ...userData,
+      password: hashedPassword
       },
     });
 

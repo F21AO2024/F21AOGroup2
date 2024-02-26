@@ -1,4 +1,4 @@
-import mongoose from "../utils/db";
+import mongoose from "../utils/db.js";
 
 const Schema = mongoose.Schema;
 
@@ -45,6 +45,11 @@ const patientTreatmentSchema = new Schema({
   medicine: {
     type: String,
     required: false,
+  },
+  signedOff: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 });
 
