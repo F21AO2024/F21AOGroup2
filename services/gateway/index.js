@@ -3,7 +3,7 @@ import { ROUTES } from "./routes/routes.js";
 
 import { logger } from "./utils/logging.js";
 import { proxies } from "./utils/proxy.js";
-import { setupAuth } from "./middleware/auth.js";
+import { setupAuth } from "./middleware/setupAuth.js";
 // import authentication from "./routes/authentication.js";
 import authentication from "./routes/authentication.js";
 

@@ -9,7 +9,7 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
-
+//TODO: no lowercasing of datainput
 model HospitalEmployee {
   id        String    @id @default(uuid()) @map("_id")
   firstName String
@@ -17,10 +17,10 @@ model HospitalEmployee {
   birthDate DateTime?
   gender    String?
   email     String?   @unique
-  adress    String?
+  address    String? //changed from adress to address
   phone     String?
   password  String
   username  String
-  role      String
+  role      String //TODO: no input validation of data user can pass empty strings or wrong roles
   joinedAt  DateTime  @default(now())
 }
