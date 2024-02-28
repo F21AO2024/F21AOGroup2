@@ -81,13 +81,13 @@ export const login = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).json({ error: "Invalid credentials" });
+      return res.status(400).json({ error: "You are en employee that does not exist" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ error: "Invalid credentials" });
+      return res.status(400).json({ error: "Your credentials are invalid" });
     }
     //add the role to the token
     const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
@@ -132,6 +132,25 @@ export const changePassword = async (req, res) => {
     });
 
     res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+//added a controller method to fetch employee by id.
+export const getUserById = async (req, res) => {
+  try {
+    const user = await prisma.hospitalEmployee.findUnique({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "User does not exist" });
+    }
+
+    res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

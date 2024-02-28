@@ -103,6 +103,8 @@ const PatientSchema = new Schema({
         required: false,
         default: 'Active'
     }
+    //TODO: add another field for registered at which ward
+    
 });
 
 
