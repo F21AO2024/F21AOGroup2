@@ -2,6 +2,13 @@ import { Treatment, DailyTreatment } from "../model/schema.js";
 
 export const recordTreatement = async (req, res) => {
   const { patientId, diagnosis, treatment, medicine } = req.body;
+  const roles = ["Doctor", "Nurse"]
+  const user = req.user;
+
+  if (!roles.includes(user.role)) {
+    return res.status(403).json({ message: "Unauthorized!" });
+  }
+
   const newTreatment = new Treatment({
     patientId,
     diagnosis,
@@ -28,6 +35,13 @@ export const getTreatment = async (req, res) => {
 
 export const recordDiagnosis = async (req, res) => {
   const { treatmentId, diagnosis } = req.body;
+  const roles = ["Doctor"];
+  const user = req.user;
+
+  if (!roles.includes(user.role)) {
+    return res.status(403).json({ message: "Unauthorized!" });
+  }
+
   const newDiagnosis = new Treatment({
     treatmentId,
     diagnosis,
@@ -52,6 +66,13 @@ export const getDiagnosis = async (req, res) => {
 
 export const recordDailyTreatment = async (req, res) => {
   const { treatmentId, intake, output, progress } = req.body;
+  const roles = ["Doctor","Nurse"];
+  const user = req.user;
+
+  if (!roles.includes(user.role)) {
+    return res.status(403).json({ message: "Unauthorized!" });
+  }
+
   const newDailyTreatment = new DailyTreatment({
     treatmentId,
     intake,
