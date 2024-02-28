@@ -1,3 +1,4 @@
+//this code file isn't used but kept for reference, remove in main branch
 const axios = require('axios');
 
 //calls the API endpoint of api gateway to get the employee by id
