@@ -1,0 +1,30 @@
+version: '1.0'
+services:
+  ward-admissions: 
+    build: .services/ward-admissions-service
+    container_name: ward-admissions
+    ports: 3001:3001
+    volumes:
+      - .services/ward-admissions-service:/app
+      - ./services/ward-admissions-service/node_modules
+  patient-registration:
+    build: .services/patient-registration-service
+    container_name: patient-registration
+    ports: 3002:3002
+    volumes:
+      - .services/patient-registration-service:/app
+      - ./services/patient-registration-service/node_modules
+  lab-treatment:
+    build: .services/lab-treatment-service
+    container_name: lab-treatment
+    ports: 3003:3003
+    volumes:
+      - .services/lab-treatment-service:/app
+      - ./services/lab-treatment-service/node_modules
+  gateway:
+    build: .services/gateway-service
+    container_name: gateway
+    ports: 3000:3000
+    volumes:
+      - .services/gateway-service:/app
+      - ./services/gateway-service/node_modules
