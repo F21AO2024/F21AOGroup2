@@ -59,7 +59,7 @@ export const register = async (req, res) => {
       },
     });
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "30d",
     });
     // res.status(201).json(user);
@@ -72,6 +72,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
+    console.log(req)
     const { username, password } = req.body;
 
     const user = await prisma.hospitalEmployee.findFirst({

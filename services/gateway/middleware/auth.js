@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const verifyToken = (req, res, next) => {
-  let token = req.header("authorization");
+  let token = req.header("Authorization");
   // console.log(token)
 
   if (token.startsWith("Bearer ")) {
@@ -20,9 +20,7 @@ export const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(401).send({ message: "Unauthorized, this token is not legitimate or expired" });
     }
-    // req.userId = decoded.id;
     req.user = decoded;
-    console.log(req.user)
     //BUG:
     //Can't send or transmit the req.user to patient-registration-service it gives undefined
     next();

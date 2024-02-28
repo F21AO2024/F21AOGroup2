@@ -1,4 +1,4 @@
-import { get } from "mongoose";
+// import { get } from "mongoose";
 import { register, login, changePassword } from "../controller/authController.js";
 import express from "express";
 
