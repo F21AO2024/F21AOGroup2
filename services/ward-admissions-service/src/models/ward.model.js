@@ -19,27 +19,12 @@ const wardSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    doctors: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Doctor",
-      },
-    ],
-    patients: [
-      {
-        patient: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Patient",
-        },
-        doctor: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Doctor",
-        },
-      },
-    ],
+
   },
+
   {
     timestamps: true,
   }
 );
 module.exports = mongoose.model("Ward", wardSchema);
+  
