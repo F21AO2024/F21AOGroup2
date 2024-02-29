@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const verifyToken = (req, res, next) => {
-  let token = req.header("authorization");
+  let token = req.header("Authorization");
 
   if (token.startsWith("Bearer ")) {
     token = token.slice(7, token.length);
@@ -18,9 +18,7 @@ export const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(401).send({ message: "Unauthorized, this token is not legitimate or expired" });
     }
-    // req.userId = decoded.id;
     req.user = decoded;
-    // console.log(req.user)
     next();
   });
 };
