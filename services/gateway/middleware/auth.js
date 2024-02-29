@@ -5,11 +5,9 @@ dotenv.config();
 
 export const verifyToken = (req, res, next) => {
   let token = req.header("Authorization");
-  // console.log(token)
 
   if (token.startsWith("Bearer ")) {
     token = token.slice(7, token.length);
-    // console.log(token)
   }
   
   if (!token) {
@@ -21,8 +19,6 @@ export const verifyToken = (req, res, next) => {
       return res.status(401).send({ message: "Unauthorized, this token is not legitimate or expired" });
     }
     req.user = decoded;
-    //BUG:
-    //Can't send or transmit the req.user to patient-registration-service it gives undefined
     next();
   });
 };

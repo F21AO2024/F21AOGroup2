@@ -14,6 +14,7 @@ const checkAuth = (req, res, next) => {
       //decrypt the token and get the userid and role
       req.user = decoded;
       req.id = decoded.id;
+      //another idea of thought is to take the deocded user and pass it instead of relying to the incomign req
       console.log(`authRole.js: user id = ${req.id}`);
       next();
     });
