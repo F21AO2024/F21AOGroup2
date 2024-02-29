@@ -5,11 +5,9 @@ dotenv.config();
 
 export const verifyToken = (req, res, next) => {
   let token = req.header("authorization");
-  // console.log(token)
 
   if (token.startsWith("Bearer ")) {
     token = token.slice(7, token.length);
-    // console.log(token)
   }
   
   if (!token) {
@@ -23,8 +21,6 @@ export const verifyToken = (req, res, next) => {
     // req.userId = decoded.id;
     req.user = decoded;
     // console.log(req.user)
-    //BUG:
-    //Can't send or transmit the req.user to patient-registration-service it gives undefined
     next();
   });
 };
