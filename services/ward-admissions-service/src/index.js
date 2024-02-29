@@ -13,7 +13,7 @@ setTimeout(() => {
 }, 2000);
 
 
-app.use(router)
+app.use('/api/v1/wardadmissions',router)
 
 app.listen(PORT, () => {
     console.log(`server is running on PORT ${PORT}`)
