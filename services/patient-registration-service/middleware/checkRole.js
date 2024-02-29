@@ -60,11 +60,13 @@
 // }
 
 //Update version 1.0.3 to remove db checks, remove dependency on gateway and remove axios
+//pass the user from the decoded authRole.js rather relying on the incoming request!
 function checkRole(roles) {
     return async function(req, res, next) {
         try {
         const user = req.user;
         console.log(user)
+        console.log('checkRole again')
         console.log(`checkRole.js: user id = ${user.id}`);
         if (!user || user === null) {
             return res.status(401).send({ message: 'Unauthorized, undefined or null', success: false });

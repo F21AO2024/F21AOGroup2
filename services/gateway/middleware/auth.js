@@ -22,7 +22,7 @@ export const verifyToken = (req, res, next) => {
     }
     // req.userId = decoded.id;
     req.user = decoded;
-    console.log(req.user)
+    // console.log(req.user)
     //BUG:
     //Can't send or transmit the req.user to patient-registration-service it gives undefined
     next();

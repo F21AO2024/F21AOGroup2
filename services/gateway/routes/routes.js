@@ -5,7 +5,7 @@ http://localhost:3002/patient/register
 */
 export const ROUTES = [
   {
-    url: "/api/v1/ward",
+    url: "/api/v1/wadmission",
     auth: true,
     proxy: {
       target: "http://127.0.0.1:3001",

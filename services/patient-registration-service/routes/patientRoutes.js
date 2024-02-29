@@ -4,6 +4,7 @@ const patientController = require('../controllers/patientController');
 const checkRole = require('../middleware/checkRole');
 
 //F21AO-64, F21AO-6, F21AO-7, F21AO-46
+//requirement 2 and requirement 5
 router.post('/register', checkRole(['Clerk']), patientController.register); //register a new patient
 //use the restful approach for the routes of getting details
 //putting the url id in the GET request is more aligned with the RESTful approach

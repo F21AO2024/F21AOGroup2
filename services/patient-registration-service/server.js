@@ -16,6 +16,7 @@ app.use(morgan('dev'));
 //authenticate first and verify token
 const checkAuth = require('./middleware/authRole');
 app.use('/api/v1/patient', checkAuth);
+// app.use('/api/v2/patient', checkAuth); //edit this to make it work, they can refer to v1/s source files
 
 //redirect to the patientRoutes but first check roles (rbac)
 const patientRoutes = require('./routes/patientRoutes');
