@@ -13,8 +13,8 @@ Our methodlogy was to first fulfill the 10 requirements listed in the PDF and th
 We implemented 4 modules/microservices in total, and they are:
 * Authentication, see it in `gateway`
 * Initial Patient Registration `services/patient-registration-service`
-* Ward Admissions `gateway/ward-admissions-service`
-* Lab treatments `lab-treatment-service`
+* Ward Admissions `services/ward-admissions-service`
+* Lab treatments `services/lab-treatment-service`
 
 ### API Gateway
 1. API Gateway: single entry point of the HPIS system
