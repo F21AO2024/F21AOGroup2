@@ -4,8 +4,8 @@ import { recordLabResult, getLabResult } from "../controller/lab.controller.js";
 
 const router = express.Router();
 
-router.post("/recordLabResult", verifyToken, recordLabResult);
-router.get("/labResult", verifyToken, getLabResult);
+router.post("/lab", verifyToken, recordLabResult);
+router.get("/lab", verifyToken, getLabResult);
 
 // module.exports = router;
 export default router;
