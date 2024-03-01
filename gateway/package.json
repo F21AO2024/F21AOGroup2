@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npx prisma generate && node index.js",
     "dev": "npx prisma generate && nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --timeout 10000 --exit"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +23,9 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "chai": "^5.1.0",
+    "mocha": "^10.3.0",
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.4"
   }
 }

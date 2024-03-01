@@ -34,6 +34,39 @@ export const recordTreatement = async (req, res) => {
   }
 };
 
+export const updateTreatment = async (req, res) => {
+  const diagnosisId = req.params.id;
+  const { treatment, medicine } = req.body;
+  const roles = ["Doctor", "Nurse"];
+  const user = req.user;
+
+  if (!roles.includes(user.role)) {
+    return res.status(403).json({ message: "Unauthorized!" });
+  }
+
+  if (!diagnosisId) {
+    return res.status(400).json({ message: "Diagnosis ID is required!" });
+  }
+
+  if (!treatment && !medicine) {
+    return res
+      .status(400)
+      .json({ message: "At least one of treatment or medicine is required!" });
+  }
+
+  try {
+    const updatedTreatment = await Treatment.findOneAndUpdate({
+      diagnosisId,
+      treatment,
+      medicine,
+    });
+
+    res.status(200).json(updatedTreatment);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 export const getTreatment = async (req, res) => {
   try {
     const diagnosisId = req.params.id;
