@@ -3,6 +3,12 @@ import mongoose from "../utils/db.js";
 const Schema = mongoose.Schema;
 
 const labResultSchema = new Schema({
+  labResultId: {
+    type: String,
+    default: () => new mongoose.Types.ObjectId().toHexString(),
+    alias: "_id",
+    required: true,
+  },
   patientId: {
     type: Schema.Types.ObjectId,
     ref: "Patients",
@@ -54,6 +60,12 @@ const patientTreatmentSchema = new Schema({
 });
 
 const dailyTreatmentSchema = new Schema({
+  dailyTreatmentId: {
+    type: String,
+    default: () => new mongoose.Types.ObjectId().toHexString(),
+    alias: "_id",
+    required: true,
+  },
   diagnosisId: {
     ref: "PatientTreatment",
     type: Schema.Types.ObjectId,

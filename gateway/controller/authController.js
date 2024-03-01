@@ -41,6 +41,8 @@ that is why we get "Invalid credentials" when logging in with the correct creden
 export const register = async (req, res) => {
   const userData = req.body;
   const hashedPassword = await bcrypt.hash(userData.password, 10);
+  const gender = ["male", "female", "others", "prefer not to say"];
+  const roles = ["doctor", "nurse", "paramedic", "receptionist", "clerk"];
   try {
     const userExists = await prisma.hospitalEmployee.findFirst({
       where: {
@@ -52,19 +54,37 @@ export const register = async (req, res) => {
       return res.status(400).json({ error: "Username already exists" });
     }
 
+    if (!roles.includes(userData.role.toLowerCase())) {
+      return res.status(400).json({
+        message:
+          "Please enter either Doctor, Nurse, Paramedic, Receptionist or Clerk as a Role",
+      });
+    }
+
+    if (userData.gender && !gender.includes(userData.gender.toLowerCase())) {
+      return res.status(400).json({
+        message:
+          "Please enter either male, female, others or prefer not to say",
+      });
+    }
+
     const user = await prisma.hospitalEmployee.create({
       data: {
-      ...userData,
-      password: hashedPassword
+        ...userData,
+        password: hashedPassword,
       },
     });
 
-    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
-    });
-    // res.status(201).json(user);
-    //added message for clarity
-    res.status(201).json({ message:"Employee registered successfully", token, user });
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "30d",
+      }
+    );
+    res
+      .status(201)
+      .json({ message: "Employee registered successfully", token, user });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -72,7 +92,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    console.log(req)
+    console.log(req);
     const { username, password } = req.body;
 
     const user = await prisma.hospitalEmployee.findFirst({
@@ -82,7 +102,9 @@ export const login = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).json({ error: "You are en employee that does not exist" });
+      return res
+        .status(400)
+        .json({ error: "You are en employee that does not exist" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -91,11 +113,17 @@ export const login = async (req, res) => {
       return res.status(400).json({ error: "Your credentials are invalid" });
     }
     //add the role to the token
-    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
-    });
-    //added message for clarity 
-    res.status(200).json({message: "Employee logged in successfully", token, user });
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "30d",
+      }
+    );
+    //added message for clarity
+    res
+      .status(200)
+      .json({ message: "Employee logged in successfully", token, user });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

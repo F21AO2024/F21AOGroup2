@@ -7,13 +7,13 @@ const router = express.Router();
 
 //Router name can be the same with different HTTP methods
 
-router.get("/treatment", verifyToken, getTreatment);
+router.get("/treatment/:id", verifyToken, getTreatment);
 router.post("/treatment", verifyToken, recordTreatement);
-router.get("/diagnosis", verifyToken, getDiagnosis);
+router.get("/diagnosis/:id", verifyToken, getDiagnosis);
 router.post("/diagnosis", verifyToken, recordDiagnosis);
-router.get("/treatment/daily", verifyToken, getDailyTreatment);
+router.get("/treatment/daily/:id", verifyToken, getDailyTreatment);
 router.post("/treatment/daily", verifyToken, recordDailyTreatment);
-router.patch("/treatment/signoff", verifyToken, signOffTreatment);
+router.put("/treatment/signoff", verifyToken, signOffTreatment);
 
 // export default router;
 export default router;
