@@ -23,7 +23,7 @@ const labResultSchema = new Schema({
 });
 
 const patientTreatmentSchema = new Schema({
-  treatmentId: {
+  diagnosisId: {
     type: String,
     default: () => new mongoose.Types.ObjectId().toHexString(),
     alias: "_id",
@@ -54,7 +54,7 @@ const patientTreatmentSchema = new Schema({
 });
 
 const dailyTreatmentSchema = new Schema({
-  treatmentId: {
+  diagnosisId: {
     ref: "PatientTreatment",
     type: Schema.Types.ObjectId,
     required: true,
