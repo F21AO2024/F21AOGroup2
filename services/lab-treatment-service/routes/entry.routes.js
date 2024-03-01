@@ -4,12 +4,15 @@ import { getDailyTreatment, recordDiagnosis, recordTreatement, getTreatment, get
 
 const router = express.Router();
 
+
+//Router name can be the same with different HTTP methods
+
 router.get("/treatment", verifyToken, getTreatment);
+router.post("/treatment", verifyToken, recordTreatement);
 router.get("/diagnosis", verifyToken, getDiagnosis);
+router.post("/diagnosis", verifyToken, recordDiagnosis);
 router.get("/treatment/daily", verifyToken, getDailyTreatment);
-router.post("/diagnosis/record", verifyToken, recordDiagnosis);
-router.post("/treatment/record", verifyToken, recordTreatement);
-router.post("/treatment/daily/record", verifyToken, recordDailyTreatment);
+router.post("/treatment/daily", verifyToken, recordDailyTreatment);
 router.patch("/treatment/signoff", verifyToken, signOffTreatment);
 
 // export default router;
