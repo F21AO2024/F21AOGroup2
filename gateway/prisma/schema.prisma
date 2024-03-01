@@ -10,6 +10,7 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
   // url      = env("DATABASE_URL_DEV")
+  //  url      = env("TEST_DB_PATIENT") //uncomment this for mocha+chai patient-reg test
 }
 //TODO: no lowercasing of datainput
 model HospitalEmployee {
