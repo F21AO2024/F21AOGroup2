@@ -6,11 +6,11 @@ const router = express.Router();
 
 router.get("/treatment", verifyToken, getTreatment);
 router.get("/diagnosis", verifyToken, getDiagnosis);
-router.get("/dailyTreatment", verifyToken, getDailyTreatment);
-router.post("/recordDiagnosis", verifyToken, recordDiagnosis);
-router.post("/recordTreatment", verifyToken, recordTreatement);
-router.post("/recordDailyTreatment", verifyToken, recordDailyTreatment);
-router.patch("/signOffTreatment", verifyToken, signOffTreatment);
+router.get("/treatment/daily", verifyToken, getDailyTreatment);
+router.post("/diagnosis/record", verifyToken, recordDiagnosis);
+router.post("/treatment/record", verifyToken, recordTreatement);
+router.post("/treatment/daily/record", verifyToken, recordDailyTreatment);
+router.patch("/treatment/signoff", verifyToken, signOffTreatment);
 
 // export default router;
 export default router;
