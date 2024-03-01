@@ -54,7 +54,34 @@ We implemented 4 modules/microservices in total, and they are:
 ## How to run?
 We have developed, implemented and tested our HPIS system on the localhost of our machines. To try it yourself follow the below steps:
 
-1. Clone this repo: `https://github.com/F21AO2024/F21AOGroup2.git`
-2. 
+Clone this repo: `https://github.com/F21AO2024/F21AOGroup2.git`
+* Enter the directory for `services/gateway` be in the same level as  `package.json`
+* Install the required dependencies `npm install`
+* Run it in development mode as `npm run dev`
+* Run it in production mode as `npm run start`
+* The gateway service will be running on port 3000
 
+## API Endpoints
+/ward: Proxies to the ward service running at <http://localhost:3001>
+/patient: Proxies to the patient service running at <http://localhost:3002>
+/labtreatment: Proxies to the lab treatment service running at <http://localhost:3003>
 
+### Steps to test Patient Reg Service
+* Enter the directory for `services/patient-registration-service`
+* Install the required dependencies `npm install`
+* Run it in development mode as `npm run dev`
+* Run it in production mode as `npm run start`
+* The patient service runs on port 3002
+
+### Steps to test Lab Treatment Service
+* Enter the directory for `services/lab-treatment-service`
+* Install the required dependencies `npm install`
+* Run it in development mode as `npm run dev`
+* Run it in production mode as `npm run start`
+* The Lab Treatment service runs on port 3003
+### Steps to test Ward Admission Service
+* Enter the directory for `services/ward-admissions-service`
+* Install the required dependencies `npm install`
+* Run it in development mode as `npm run dev`
+* Run it in production mode as `npm run start`
+* The Ward Admission service runs on port 3001
