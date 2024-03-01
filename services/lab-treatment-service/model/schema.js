@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const labResultSchema = new Schema({
   patientId: {
     type: Schema.Types.ObjectId,
-    ref: "Patient",
+    ref: "Patients",
     required: true,
   },
   diagnosticMachine: {
