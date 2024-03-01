@@ -92,7 +92,6 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    console.log(req);
     const { username, password } = req.body;
 
     const user = await prisma.hospitalEmployee.findFirst({

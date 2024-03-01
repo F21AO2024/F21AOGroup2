@@ -27,7 +27,7 @@ app.get('/api/v1/labtreatment/entrys', (req, res) => {
 });
 
 app.use('/api/v1/labtreatment/entry', entryRoutes);
-app.use('/api/v1/labtreatment/lab', labRoutes);
+app.use('/api/v1/labtreatment/', labRoutes);
 
 app.use
 

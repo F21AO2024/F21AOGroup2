@@ -10,7 +10,7 @@ const router = express.Router();
 router.get("/treatment/:id", verifyToken, getTreatment);
 router.post("/treatment", verifyToken, recordTreatement);
 router.get("/diagnosis/:id", verifyToken, getDiagnosis);
-router.post("/diagnosis", verifyToken, recordDiagnosis);
+router.put("/diagnosis", verifyToken, recordDiagnosis);
 router.get("/treatment/daily/:id", verifyToken, getDailyTreatment);
 router.post("/treatment/daily", verifyToken, recordDailyTreatment);
 router.put("/treatment/signoff", verifyToken, signOffTreatment);

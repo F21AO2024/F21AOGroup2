@@ -42,7 +42,7 @@ export const getTreatment = async (req, res) => {
       return res.status(400).json({ message: "Diagnosis ID is required!" });
     }
 
-    const treatment = await Treatment.findById(diagnosisId);
+    const treatment = await Treatment.find({ diagnosisId });
 
     if (!treatment) {
       return res.status(404).json({ message: "Treatment not found!" });
@@ -72,11 +72,15 @@ export const recordDiagnosis = async (req, res) => {
   }
 
   try {
-    const updatedDiagnosis = await Treatment.findByIdAndUpdate(
+    // const updatedDiagnosis = await Treatment.findByIdAndUpdate(
+    //   diagnosisId,
+    //   { diagnosis },
+    //   { new: true }
+    // );
+    const updatedDiagnosis = await Treatment.findOneAndUpdate({
       diagnosisId,
-      { diagnosis },
-      { new: true }
-    );
+      diagnosis,
+    });
     res.status(200).json(updatedDiagnosis);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -90,7 +94,7 @@ export const getDiagnosis = async (req, res) => {
       return res.status(400).json({ message: "Diagnosis ID is required!" });
     }
 
-    const diagnosis = await Treatment.findById(diagnosisId);
+    const diagnosis = await Treatment.find({ diagnosisId });
 
     if (!diagnosis) {
       return res.status(404).json({ message: "Diagnosis not found!" });

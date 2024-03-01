@@ -1,20 +1,23 @@
 import { Lab } from "../model/schema.js";
 
 export const recordLabResult = async (req, res) => {
-  const { patientId, result } = req.body;
+  const { patientId, result, diagnosticMachine } = req.body;
 
   if (!patientId) {
     return res.status(400).json({ message: "Patient ID is required!" });
   }
 
-  if (!result) {
-    return res.status(400).json({ message: "Result is required!" });
+  if (!result || !diagnosticMachine) {
+    return res
+      .status(400)
+      .json({ message: "Result and diagnostic machine are required!" });
   }
 
   try {
     const newLabResult = new Lab({
       patientId,
       result,
+      diagnosticMachine,
     });
 
     const labResult = await newLabResult.save();
