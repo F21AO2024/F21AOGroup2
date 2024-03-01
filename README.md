@@ -4,7 +4,7 @@ Welcome, this is the main entrypoint of the repository.
 ## Team Members
 1. Ekaterina Larchenkova, H00453948
 2. Deepesh Khamat, H00448733   
-3. Emmanuel Ejakpomewhe, H00424903 
+3. Emmanuel Ejakpomewhe, H00462741 
 4. Tauhid Junaid, H00464629 
 
 ## Microservices Implemented
