@@ -13,12 +13,8 @@ RUN npm install
 # Copy the rest of the application to the working directory
 COPY . .
 
-# Generate Prisma Client
-RUN npx prisma generate
-
-
 # Make port 3000 available to the outside of the Docker container
-EXPOSE 3000
+EXPOSE 3001
 
 # Run the application when the Docker container launches
-CMD [ "node", "index.js" ]
+CMD [ "node", "src/index.js" ]
