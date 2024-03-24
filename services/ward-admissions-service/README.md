@@ -6,4 +6,3 @@
 * Run it in production mode as `npm run start`
 * The Ward Admission service runs on port 3001
 
-testing Jenkins
