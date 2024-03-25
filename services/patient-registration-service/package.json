@@ -1,8 +1,8 @@
 {
-  "name": "ward-admissions-service",
+  "name": "patient-registration-service",
   "version": "1.0.0",
-  "description": "Ward admissions microservice",
-  "main": "index.js",
+  "description": "patient registration microservice",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
@@ -17,22 +17,18 @@
     "mongodb",
     "express"
   ],
-  "author": "Deepesh",
+  "author": "Ekaterina Larchenkova",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/F21AO2024/F21AOGroup2/issues"
   },
   "homepage": "https://github.com/F21AO2024/F21AOGroup2#readme",
   "dependencies": {
-    "axios": "^1.6.7",
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.3",
-    "morgan": "^1.10.0",
-    "prisma": "^3.0.1"
+    "morgan": "^1.10.0"
   },
-    
   "devDependencies": {
     "nodemon": "^3.0.3"
   }
