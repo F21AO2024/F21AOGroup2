@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'docker:dind'
+            args '--env DOCKER_TLS_CERTDIR=/certs'
+        }
+    }
 
     environment {
         DOCKER_COMPOSE_VERSION = '3.9'
