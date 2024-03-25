@@ -1,9 +1,6 @@
 pipeline {
     agent {
-        docker {
-            image 'docker:dind'
-            args '--env DOCKER_TLS_CERTDIR=/certs'
-        }
+        dockerNode('docker:dind')
     }
 
     environment {
