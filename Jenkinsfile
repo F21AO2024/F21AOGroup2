@@ -1,23 +1,26 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Build and Deploy') {
-            steps {
-                script {
-                    docker.image('docker').inside {
-                        sh 'docker compose down'
-                        sh 'docker compose build'
-                        sh 'docker compose up -d'
-                    }
-                }
-            }
-        }
-    }
+  agent any
+  environment {
+      DOCKER_COMPOSE_VERSION = '3.9'
+  }
+  
+  stages {
+      stage('Build') {
+          steps {
+              sh 'docker-compose -f docker-compose.yml build'
+          }
+      }
+      
+      stage('Run') {
+          steps {
+              sh 'docker-compose -f docker-compose.yml up -d'
+          }
+      }
+  }
+  
+  post {
+      always {
+          sh 'docker-compose -f docker-compose.yml down'
+      }
+  }
 }
