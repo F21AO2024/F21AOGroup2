@@ -1,6 +1,5 @@
 # Ignore node_modules folder in all directories
 **/node_modules/
 *.log
-*.env
-*.env.local
+#I realized I was a retard and forgot to include the env
 package-lock.json
