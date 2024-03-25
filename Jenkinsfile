@@ -10,9 +10,13 @@ pipeline {
 
         stage('Build and Deploy') {
             steps {
-                sh 'docker compose down'
-                sh 'docker compose build'
-                sh 'docker compose up -d'
+                script {
+                    docker.image('docker').inside {
+                        sh 'docker compose down'
+                        sh 'docker compose build'
+                        sh 'docker compose up -d'
+                    }
+                }
             }
         }
     }
