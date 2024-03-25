@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        dockerNode('docker:dind')
-    }
+    agent any
 
     environment {
         DOCKER_COMPOSE_VERSION = '3.9'
