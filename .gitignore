@@ -3,3 +3,4 @@
 *.log
 #I realized I was a retard and forgot to include the env
 package-lock.json
+mochawesome-report
