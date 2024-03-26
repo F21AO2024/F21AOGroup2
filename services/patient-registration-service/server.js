@@ -24,5 +24,5 @@ app.use('/api/v1/patient', patientRoutes);
 
 
 //start the server and listen on port 3002
-app.listen(3002, () => console.log('Patient registration microservice running on port 3002'));
+app.listen(3002, () => console.log('Patient Reg microservice running on port 3002'));
 
