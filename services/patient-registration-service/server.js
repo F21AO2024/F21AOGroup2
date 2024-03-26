@@ -2,6 +2,7 @@
 require('dotenv').config();
 const connect = require('./helpers/db');
 connect();
+//adding a testing comment for the GitHub-integration pipeline
 
 //import express and create an express web server
 const express = require('express');
