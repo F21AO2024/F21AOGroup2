@@ -1,36 +1,37 @@
 //Created this file to test Sonarqube monitoring
 
 pipeline {
-    // agent {
-    //   docker {
-    //     image 'docker:latest'
-    //     args '-v /var/run/docker.sock:/var/run/docker.sock'
-    //   }
-    // }
-    agent any
+     agent {
+       docker {
+         image 'docker:latest'
+        args '-v /var/run/docker.sock:/var/run/docker.sock'
+      }
+     }
+   // agent any
 
     environment {
         DOCKER_COMPOSE_VERSION = '3.9'
+        SONAR_JS_PLUGIN_VERSION = '7.2.0'
     }
 
     stages {
-        // stage('Install Docker Compose') {
-        //     steps {
-        //         sh '''
-        //             curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o docker-compose
-        //             chmod +x docker-compose
-        //         '''
-        //     }
-        // }
+         stage('Install Docker Compose') {
+             steps {
+                 sh '''
+                    curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o docker-compose
+                    chmod +x docker-compose
+                '''
+             }
+         }
 
-        // stage('Initialize'){
-        //   def dockerHome = tool 'myDocker'
-        //   env.PATH = "${dockerHome}/bin:${env.PATH}"
-        // }
+         stage('Initialize'){
+           def dockerHome = tool 'myDocker'
+          env.PATH = "${dockerHome}/bin:${env.PATH}"
+         }
          stage('Scan') {
         steps {
             withSonarQubeEnv (installationName: 'SonarQube_setup') {
-                sh 'docker compose -f docker-compose.yml build: sonar-maven-plugin:3.9.0.2155:sonar'
+                sh 'docker compose -f docker-compose.yml build: sonar-js-plugin:7.2.0:sonar'
             }
         }
     }
