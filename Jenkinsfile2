@@ -1,13 +1,13 @@
 //Created this file to test Sonarqube monitoring
 
 pipeline {
-     agent {
+  //   agent {
        docker {
          image 'docker:latest'
         args '-v /var/run/docker.sock:/var/run/docker.sock'
       }
      }
-   // agent any
+    agent any
 
     environment {
         DOCKER_COMPOSE_VERSION = '3.9'
@@ -24,11 +24,11 @@ pipeline {
              }
          }
 
-         stage('Initialize'){
-           def dockerHome = tool 'myDocker'
-          env.PATH = "${dockerHome}/bin:${env.PATH}"
-         }
-         stage('Scan') {
+      //   stage('Initialize'){
+    //       def dockerHome = tool 'myDocker'
+     //     env.PATH = "${dockerHome}/bin:${env.PATH}"
+     //    }
+        stage('Scan') {
         steps {
             withSonarQubeEnv (installationName: 'SonarQube_setup') {
                 sh 'docker compose -f docker-compose.yml build: sonar-js-plugin:7.2.0:sonar'
