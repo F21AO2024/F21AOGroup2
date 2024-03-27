@@ -1,13 +1,13 @@
 //Created this file to test Sonarqube monitoring
 
 pipeline {
-  //   agent {
+     agent {
        docker {
          image 'docker:latest'
         args '-v /var/run/docker.sock:/var/run/docker.sock'
       }
      }
-    agent any
+//    agent any
 
     environment {
         DOCKER_COMPOSE_VERSION = '3.9'
