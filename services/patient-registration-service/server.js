@@ -11,8 +11,8 @@ const app = express();
 app.use(express.json());
 
 //logging
-const morgan = require('morgan');
-app.use(morgan('dev'));
+// const morgan = require('morgan');
+// app.use(morgan('dev'));
 
 //authenticate first and verify token
 const checkAuth = require('./middleware/authRole');
