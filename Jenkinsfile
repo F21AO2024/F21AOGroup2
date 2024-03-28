@@ -70,7 +70,7 @@ pipeline {
                 script {
                     imageList = sh(returnStdout: true, script: 'docker compose ps -q').trim().split("\n") 
                     for (image in imageList) {
-                        sh "trivy image --format table -o trivy-report-${image}.html ${image}"
+                        sh "trivy fs --format table -o trivy-report-${image}.html ${image}"
                     }
                 }
             }
