@@ -24,7 +24,6 @@ pipeline {
                 sh 'node -v'
                 sh 'npm -v'
                 sh 'docker --version'
-                sh 'docker compose --version'
                 sh 'trivy --version'
             }
         }
@@ -38,7 +37,7 @@ pipeline {
             //stage 4: sonarqube scan
             stage('SonarQube Scan') {
                 steps {
-                    withSonarQubeEnv('sonar-server') {
+                    withSonarQubeEnv('SonarQube Server') {
                         //for simplicity keep the rpojct key same as project name
                         sh ''' 
                         $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName="f21ao-ops" -Dsonar.projectKey="f21ao-ops" \
