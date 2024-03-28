@@ -29,6 +29,9 @@ pipeline {
        stage('Security Scan') {
       steps {
         sh 'trivy --no-progress dev-pipeline-patient-registration:latest'
+        sh 'trivy --no-progress dev-pipeline-gateway:latest'
+        sh 'trivy --no-progress dev-pipeline-ward-admissions:latest'
+        sh 'trivy --no-progress dev-pipeline-lab-treatment:latest'
       }
 }
 
@@ -41,6 +44,7 @@ pipeline {
 
     post {
         always {
+            sh 'sleep 150'
             sh 'docker compose -f docker-compose.yml down'
         }
     }
