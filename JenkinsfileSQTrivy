@@ -30,6 +30,7 @@ pipeline {
       steps {
         sh 'trivy --no-progress dev-pipeline-patient-registration:latest'
       }
+}
 
         stage('Run') {
             steps {
