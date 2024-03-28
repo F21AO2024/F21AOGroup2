@@ -61,7 +61,7 @@ pipeline {
         //stage 6 build the docker images via docker compose
         stage('Build All Docker Images') {
             steps {
-                withDockerRegistry(credentialsId: 'docker-cred') {
+                withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker-latest') {
                     sh 'docker-compose -f docker-compose.yml build'
                 }       
             }
@@ -80,9 +80,7 @@ pipeline {
         stage('Docker pushing') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker-latest', target: 'notvolk/zlf21ao-containers') {
                     sh 'docker compose push'
-                }   
                 }     
             }
         }
