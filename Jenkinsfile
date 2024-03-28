@@ -34,15 +34,8 @@ pipeline {
         stage('Trivy Scan') {
             steps {
                 //check if trivy exists if not install it
-                script {
-                    if (fileExists('/usr/local/bin/trivy')) {
-                        echo 'Trivy exists...'
-                        sh 'trivy --version'
-                    }
-                    //scan the file system
                     sh 'trivy fs --format table -o trivy-report.html .'
                 }
-            }
             }
             //stage 4: sonarqube scan
             stage('SonarQube Scan') {
