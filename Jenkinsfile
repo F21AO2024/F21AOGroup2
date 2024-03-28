@@ -48,7 +48,7 @@ pipeline {
                     }
                 }
             }
-            // //stage 5: Sonar quality gate
+            // //stage 5: Sonar quality gate - it hangs here for some reason
             // stage('Quality Gate') {
             //     steps {
             //         script {
@@ -61,7 +61,7 @@ pipeline {
         //stage 6 build the docker images via docker compose
         stage('Build All Docker Images') {
             steps {
-                    sh 'docker-compose -f docker-compose.yml build'
+                    sh 'docker compose -f docker-compose.yml build'
             }
         }
         //stage 7: docker image scan
