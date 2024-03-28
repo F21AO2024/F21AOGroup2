@@ -43,7 +43,7 @@ pipeline {
                         $SCANNER_HOME/bin/sonar-scanner \
                         -Dsonar.projectName="f21ao-ops" \
                         -Dsonar.projectKey="f21ao-ops" \
-                        -Dsonar.sources=./**/*.js 
+                        -Dsonar.sources=./gateway,./services/lab-treatment-service,./services/patient-registration-service,./services/ward-admissions-service
                         '''
                     }
                 }
