@@ -43,7 +43,7 @@ pipeline {
                         $SCANNER_HOME/bin/sonar-scanner \
                         -Dsonar.projectName="f21ao-ops" \
                         -Dsonar.projectKey="f21ao-ops" \
-                        -Dsonar.sources=./gateway $(sh(script: 'echo ./services/*.service', returnStdout: true))
+                        -Dsonar.sources=./gateway $(sh(script: 'echo ./services/*.service'))
                         '''
                     }
                 }
