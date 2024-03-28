@@ -80,7 +80,7 @@ pipeline {
         stage('Docker pushing') {
             steps {
                 script {
-                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                    sh 'docker login -u $DOCKER_USERNAME --password-stdin $DOCKER_PASSWORD'
                     sh 'docker compose push notvolk/zlf21ao-containers'
                 }     
             }
