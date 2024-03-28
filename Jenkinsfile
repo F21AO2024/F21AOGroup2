@@ -1,47 +1,109 @@
 pipeline {
-    // agent {
-    //   docker {
-    //     image 'docker:latest'
-    //     args '-v /var/run/docker.sock:/var/run/docker.sock'
-    //   }
-    // }
-    agent any
+    agent any //no agents involved
 
+    tools { //use the plugins installed and configured in the jenkins server
+        nodejs 'node-20.11.1'
+        dockerTool 'docker-latest'
+        sonarqube 'sonar-5.0.0.2966'
+    }
     environment {
         DOCKER_COMPOSE_VERSION = '3.9'
+        SCANNER_HOME = tool 'sonar-5.0.0.2966'
     }
 
-    stages {
-        // stage('Install Docker Compose') {
-        //     steps {
-        //         sh '''
-        //             curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o docker-compose
-        //             chmod +x docker-compose
-        //         '''
-        //     }
-        // }
-
-        // stage('Initialize'){
-        //   def dockerHome = tool 'myDocker'
-        //   env.PATH = "${dockerHome}/bin:${env.PATH}"
-        // }
-
-        stage('Build') {
+    stages { 
+        // stage 1 checkout the code from the repository
+        stage('Git Checkout') {
             steps {
-                sh 'docker compose -f docker-compose.yml build'
+                git url: 'https://github.com/F21AO2024/F21AOGroup2.git', branch: 'dev'
+            }
+        }
+        // stage 2 check if environment are present
+        stage('Check NodeJS Environment') {
+            steps {
+                sh 'echo "Checking Environment..."'
+                sh 'node -v'
+                sh 'npm -v'
+                sh 'docker --version'
+                sh 'docker compose --version'
+                sh 'trivy --version'
+                sh 'sonar-scanner --version'
+            }
+        }
+        //stage 3: file system scan with trivy
+        stage('Trivy Scan') {
+            steps {
+                //check if trivy exists if not install it
+                script {
+                    if (fileExists('/usr/local/bin/trivy')) {
+                        echo 'Trivy exists...'
+                        sh 'trivy --version'
+
+                    } else {
+                        echo 'Trivy does not exist'
+                        sh 'sudo apt-get install wget apt-transport-https gnupg lsb-release
+                            wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+                            echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+                            sudo apt-get update
+                            sudo apt-get install trivy'
+                        sh 'trivy --version'
+                    }
+                    //scan the file system
+                    sh 'trivy fs --format table -o trivy-report.html .'
+                }
+            }
+            //stage 4: sonarqube scan
+            stage('SonarQube Scan') {
+                steps {
+                    withSonarQubeEnv('sonar-server') {
+                        //for simplicity keep the rpojct key same as project name
+                        sh ''' 
+                        $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName="f21ao-ops" -Dsonar.projectKey="f21ao-ops" \
+                        -Dsonar.sources=./gateway ./services/*
+                        '''
+                    }
+                }
+            }
+            //stage 5: Sonar quality gate
+            stage('Quality Gate') {
+                steps {
+                    script {
+                        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token-dev'
+                    }
+                }
+            }
+
+
+        //stage 6 build the docker images via docker compose
+        stage('Build All Docker Images') {
+            steps {
+                withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker-latest') {
+                    sh 'docker-compose -f docker-compose.yml build'
+                }       
+            }
+        }
+        //stage 7: docker image scan
+        stage('Docker image scan') {
+            steps {
+                script {
+                    imageList = sh(returnStdout: true, script: 'docker-compose ps -q').trim().split("\n") 
+                    for (image in imageList) {
+                        sh "trivy image --format table -o trivy-report-${image}.html ${image}"
+                    }
+                }
+            }
+        }
+        stage('Docker pushing') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker-latest', target: 'notvolk/zlf21ao-containers') {
+                    sh 'docker compose push'
+                }   
+                }     
             }
         }
 
-        stage('Run') {
-            steps {
-                sh 'docker compose -f docker-compose.yml up -d'
-            }
-        }
-    }
-
-    post {
-        always {
-            sh 'docker compose -f docker-compose.yml down'
+        
         }
     }
 }
