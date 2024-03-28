@@ -38,15 +38,6 @@ pipeline {
                     if (fileExists('/usr/local/bin/trivy')) {
                         echo 'Trivy exists...'
                         sh 'trivy --version'
-
-                    } else {
-                        echo 'Trivy does not exist'
-                        sh 'sudo apt-get install wget apt-transport-https gnupg lsb-release -y
-                            wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
-                            echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
-                            sudo apt-get update
-                            sudo apt-get install trivy'
-                        sh 'trivy --version'
                     }
                     //scan the file system
                     sh 'trivy fs --format table -o trivy-report.html .'
