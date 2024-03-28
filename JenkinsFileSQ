@@ -6,6 +6,20 @@ pipeline {
     }
 
     stages {
+        stage('Scan') {
+            agent {
+                docker {
+                    image 'sonarsource/sonar-scanner-cli:latest'
+                    args '-v $PWD:/usr/src'
+                }
+            }
+            steps {
+                withSonarQubeEnv('SonarQube Server') {
+                    sh 'sonar-scanner -Dsonar.projectBaseDir=/usr/src'
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 sh 'docker compose -f docker-compose.yml build'
