@@ -61,7 +61,7 @@ pipeline {
         //stage 6 build the docker images via docker compose
         stage('Build All Docker Images') {
             steps {
-                withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker-latest') {
+                withDockerRegistry(credentialsId: 'docker-cred') {
                     sh 'docker-compose -f docker-compose.yml build'
                 }       
             }
