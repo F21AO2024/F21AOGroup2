@@ -5,7 +5,7 @@ services:
     build:
       context: ./services/ward-admissions-service
     container_name: ward-admissions
-    image: notvolk/zlf21ao-containers-ward:1.0.3
+    image: notvolk/zlf21ao-containers:ward-1.0.3
     ports:
       - '3001:3001'
     volumes:
@@ -16,7 +16,7 @@ services:
     build:
       context: ./services/patient-registration-service
     container_name: patient-registration
-    image: notvolk/zlf21ao-containers-patient-reg:1.0.3
+    image: notvolk/zlf21ao-containers:reg-1.0.3
     ports:
       - '3002:3002'
     volumes:
@@ -27,7 +27,7 @@ services:
     build:
       context: ./services/lab-treatment-service
     container_name: lab-treatment
-    image: notvolk/zlf21ao-containers-lab:1.0.3
+    image: notvolk/zlf21ao-containers:lab-1.0.3
     ports:
       - '3003:3003'
     volumes:
@@ -38,7 +38,7 @@ services:
     build:
       context: ./gateway
     container_name: gateway
-    image: notvolk/zlf21ao-containers-gateway:1.0.3
+    image: notvolk/zlf21ao-containers:gateway-1.0.3
     ports:
       - '3000:3000'
     volumes:

@@ -8,6 +8,8 @@ pipeline {
     environment {
         DOCKER_COMPOSE_VERSION = '3.9'
         SCANNER_HOME = tool 'sonar-5.0.0.2966'
+        DOCKER_USERNAME = credentials('docker-cred')
+        DOCKER_PASSWORD = credentials('docker-cred')
     }
 
     stages { 
@@ -78,7 +80,8 @@ pipeline {
         stage('Docker pushing') {
             steps {
                 script {
-                    sh 'docker compose push'
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                    sh 'docker compose push notvolk/zlf21ao-containers'
                 }     
             }
         }
