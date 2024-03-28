@@ -6,7 +6,7 @@ pipeline {
     }
 
     stages {
-        stage('Scan') {
+        stage('SonarQube Code Scan') {
             agent {
                 docker {
                     image 'sonarsource/sonar-scanner-cli:latest'
@@ -20,13 +20,13 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build (Docker compose)') {
             steps {
                 sh 'docker compose -f docker-compose.yml build'
             }
         }
 
-       stage('Security Scan') {
+       stage('Trivy Security Scan') {
       steps {
         sh 'trivy --no-progress build-f21ao-main-allnone-docker-compose-patient-registration:latest'
         sh 'trivy --no-progress build-f21ao-main-allnone-docker-compose-gateway:latest'
@@ -35,7 +35,7 @@ pipeline {
       }
 }
 
-        stage('Run') {
+        stage('Run (Docker compose)') {
             steps {
                 sh 'docker compose -f docker-compose.yml up -d'
             }
