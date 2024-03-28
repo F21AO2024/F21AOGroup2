@@ -26,7 +26,6 @@ pipeline {
                 sh 'docker --version'
                 sh 'docker compose --version'
                 sh 'trivy --version'
-                sh 'sonar-scanner --version'
             }
         }
         //stage 3: file system scan with trivy
