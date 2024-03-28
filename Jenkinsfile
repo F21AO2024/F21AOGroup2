@@ -43,6 +43,7 @@ pipeline {
                     sh 'trivy fs --format table -o trivy-report.html .'
                 }
             }
+            }
             //stage 4: sonarqube scan
             stage('SonarQube Scan') {
                 steps {
