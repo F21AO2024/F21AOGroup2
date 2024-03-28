@@ -4,7 +4,6 @@ pipeline {
     tools { //use the plugins installed and configured in the jenkins server
         nodejs 'node-20.11.1'
         dockerTool 'docker-latest'
-        sonarqube 'sonar-5.0.0.2966'
     }
     environment {
         DOCKER_COMPOSE_VERSION = '3.9'
