@@ -15,7 +15,7 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv('SonarQube Server') {
-                    sh 'sonar-scanner -Dsonar.projectBaseDir=/usr/src'
+                    sh 'sonar-scanner -Dsonar.projectBaseDir=/usr/src -Dsonar.projectKey=Jenkins-project-f21AO'
                 }
             }
         }
