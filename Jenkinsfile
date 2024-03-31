@@ -8,8 +8,6 @@ pipeline {
     environment {
         DOCKER_COMPOSE_VERSION = '3.9'
         SCANNER_HOME = tool 'sonar-scanner'
-        DOCKER_USERNAME = credentials('docker-cred')
-        DOCKER_PASSWORD = credentials('docker-cred')
     }
 
     stages { 
@@ -116,6 +114,7 @@ pipeline {
             }
         }  
 
+        
 
 
 
