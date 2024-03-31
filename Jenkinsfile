@@ -19,6 +19,14 @@ pipeline {
                 cleanWs()
             }
         }
+        stage('Get CWD') {
+            steps {
+                sh 'echo "CURRENT DIRECTORY:" && pwd'
+                sh 'echo "JENKINS VERSION:" && jenkins --version'
+                sh 'echo "TRIVY VERSION:" && trivy --version'
+                sh 'echo "DOCKER VERSION:" && docker --version'
+            }
+        }
 
         // stage 2: checkout the code from the repository
         stage('Checkout from Git') {
@@ -28,13 +36,14 @@ pipeline {
         }
 
         //stage 3: scan the checked out code with trivy
-        stage('Trivy Scan') {
+        //find a way how to export it or store it somewhere -> nexus repo?
+        stage('Trivy Filesystem and Checkout Repo Scan') {
             steps {
                     sh 'trivy fs --format table -o f21ao-dev-branch-trivy-report.html .'
             }
         }
         //stage 4: sonarqube scan
-        stage('SonarQube Scan') {
+        stage('SAST SonarQube Source Code Scan') {
             steps {
                 withSonarQubeEnv('SonarQube Server') {
                     //for simplicity keep the project key same as project name
@@ -44,24 +53,41 @@ pipeline {
                     -Dsonar.projectKey="f21ao-ops" \
                     -Dsonar.sources=./gateway,./services/lab-treatment-service,./services/patient-registration-service,./services/ward-admissions-service
                     '''
+                    //scan our source code files hence why we point to the microservices and gateway directories
                 }
             }
         }
-        //stage 5: Sonar quality gate - it hangs here for some reason
-        stage('Quality Gate') {
+        //stage 5: Sonar quality gate - hint: comment out when you demo this, 
+        //quality gate takes a pretty long time, around ~1 hour. But it passes!, code base is large
+        stage('Pass SonarQube Quality Gate') {
             steps {
                 script {
                         waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token-dev'
                 }
             }
         }
+        //stage 6: OWASP dependency check
+        stage('OWASP Dependency Check') {
+            steps {
+                script {
+                    def dp_check_loc = tool 'dp-check'
+
+                    for (dir in ["./gateway", "./services/lab-treatment-service", "./services/patient-registration-service", "./services/ward-admissions-service"]) {
+                        sh "${dp_check_loc}/bin/dependency-check.sh --enableExperimental --project f21ao-dev --scan ${dir} --out . --format HTML"
+                    }
+                }
+
+            }
+        }
 
         //stage 6 build the docker images via docker compose
-        stage('Build All Docker Images') {
+        stage('Build and Tag Docker Images') {
             steps {
                     sh 'docker compose -f docker-compose.yml build'
             }
         }
+        
+
         //stage 7: docker image scan
         stage('Docker image scan') {
             steps {
