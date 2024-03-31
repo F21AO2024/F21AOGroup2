@@ -64,7 +64,7 @@ pipeline {
         //     }
         // }
         //stage 6: OWASP dependency check, you need to install dependencies to check them
-        //disable yarn cause I didn't install it, we worked with `npm install` not `yarn`
+        //disable yarn cause I didn't install it, we worked with `npm install` not `yarn`, also dont use .NET
         stage('OWASP Dependency Check') {
             steps {
                 script {
@@ -72,10 +72,10 @@ pipeline {
 
                     for (dir in ["./gateway", "./services/lab-treatment-service", "./services/patient-registration-service", "./services/ward-admissions-service"]) {
                         sh "cd ${dir} && npm install"
-                        sh "${dp_check_loc}/bin/dependency-check.sh --enableExperimental --project f21ao-dev --scan ${dir} --out . --format HTML --disableYarnAudit"
+                        sh "${dp_check_loc}/bin/dependency-check.sh --enableExperimental --project f21ao-dev --scan ${dir} --out . --format XML --disableYarnAudit --disableAssembly"
                     }
                 }
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.html'
 
             }
         }
@@ -87,7 +87,7 @@ pipeline {
                 script {
                     docker.withTool('docker-latest') {
                         sh 'echo "DOCKER VERSION:" && docker --version'
-                        sh 'echo "DOCKER COMPOSE VERSION:" && docker compose --version'
+                        sh 'echo "DOCKER COMPOSE VERSION:" && docker compose version'
                         sh "docker compose -f docker-compose.yml build"
                     }
                 }
