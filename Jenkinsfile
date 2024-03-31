@@ -87,14 +87,13 @@ pipeline {
             }
         }
         
-
         //stage 7: docker image scan
         stage('Docker image scan') {
             steps {
                 script {
-                    imageList = sh(returnStdout: true, script: 'docker compose ps -q').trim().split("\n") 
+                    def imageList = ['notvolk/zlf21ao-containers:ward-1.0.3', 'notvolk/zlf21ao-containers:patient-1.0.3', 'notvolk/zlf21ao-containers:lab-1.0.3', 'notvolk/zlf21ao-containers:gateway-1.0.3']
                     for (image in imageList) {
-                        sh "trivy fs --format table -o trivy-report-${image}.html ${image}"
+                        sh "trivy image --format table -o trivy-report-${image.replace('/', '-').replace(':', '-')}.html ${image}"
                     }
                 }
             }

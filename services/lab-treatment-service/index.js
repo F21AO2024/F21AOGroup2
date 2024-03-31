@@ -29,7 +29,6 @@ app.get('/api/v1/labtreatment/entrys', (req, res) => {
 app.use('/api/v1/labtreatment/entry', entryRoutes);
 app.use('/api/v1/labtreatment/', labRoutes);
 
-app.use
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 

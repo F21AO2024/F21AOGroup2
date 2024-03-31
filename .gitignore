@@ -2,5 +2,5 @@
 **/node_modules/
 *.log
 #I realized I was a retard and forgot to include the env
-package-lock.json
+services/ward-admissions-service/package-lock.json
 mochawesome-report
