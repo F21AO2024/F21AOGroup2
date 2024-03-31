@@ -83,7 +83,9 @@ pipeline {
         //stage 6 build the docker images via docker compose
         stage('Build and Tag Docker Images') {
             steps {
-                    sh 'docker compose -f docker-compose.yml build'
+                    def docker = tool 'docker-latest'
+                    sh "${docker} --version"
+                    sh "${docker} compose -f docker-compose.yml build"
             }
         }
         
