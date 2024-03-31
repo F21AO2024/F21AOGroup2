@@ -85,7 +85,6 @@ pipeline {
             steps {
                 script {
                     def docker = tool 'docker-latest'
-                    sh "${docker} --version"
                     sh "${docker} compose -f docker-compose.yml build"
                 }
             }
