@@ -50,14 +50,14 @@ pipeline {
                     }
                 }
             }
-            // //stage 5: Sonar quality gate - it hangs here for some reason
-            // stage('Quality Gate') {
-            //     steps {
-            //         script {
-            //                 waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token-dev'
-            //         }
-            //     }
-            // }
+            //stage 5: Sonar quality gate - it hangs here for some reason
+            stage('Quality Gate') {
+                steps {
+                    script {
+                            waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token-dev'
+                    }
+                }
+            }
 
 
         //stage 6 build the docker images via docker compose
@@ -81,7 +81,7 @@ pipeline {
         stage('Docker pushing') {
             steps {
                 script {
-                    sh 'docker login -u $DOCKER_USERNAME --password-stdin $DOCKER_PASSWORD'
+                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                     sh 'docker compose push notvolk/zlf21ao-containers'
                 }     
             }
