@@ -71,8 +71,8 @@ pipeline {
                     def dp_check_loc = tool 'dp-check'
 
                     for (dir in ["./gateway", "./services/lab-treatment-service", "./services/patient-registration-service", "./services/ward-admissions-service"]) {
+                        sh "cd ${dir} && npm install"
                         sh "${dp_check_loc}/bin/dependency-check.sh --enableExperimental --project f21ao-dev --scan ${dir} --out . --format HTML"
-                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '.', reportFiles: reportName, reportName: "OWASP Report - ${dir}", reportTitles: "OWASP Report - ${dir}"])
                     }
                 }
 
