@@ -80,14 +80,16 @@ pipeline {
             }
         }
 
-        //stage 6 build the docker images via docker compose
+        //stage 7 build the docker images via docker compose
+        //use Docker Pipeline Plugin, to point to Jenkins Global tool config `docker-latest`
         stage('Build and Tag Docker Images') {
             steps {
                 script {
-                    def dockerHome = tool 'docker-latest'
-                    def dockerBin = "${dockerHome}/bin/docker"
-                    sh "chmod +x ${dockerBin}"
-                    sh "${dockerBin} compose -f docker-compose.yml build"
+                    docker.withTool('docker-latest') {
+                        sh 'echo "DOCKER VERSION:" && docker --version'
+                        sh 'echo "DOCKER COMPOSE VERSION:" && docker compose --version'
+                        sh "docker compose -f docker-compose.yml build"
+                    }
                 }
             }
         }
