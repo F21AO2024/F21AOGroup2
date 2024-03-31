@@ -6,7 +6,6 @@ pipeline {
         dockerTool 'docker-latest'
     }
     environment {
-        // DOCKER_COMPOSE_VERSION = '3.9'
         SCANNER_HOME = tool 'sonar-scanner'
     }
 
@@ -64,7 +63,8 @@ pipeline {
         //         }
         //     }
         // }
-        //stage 6: OWASP dependency check
+        //stage 6: OWASP dependency check, you need to install dependencies to check them
+        //disable yarn cause I didn't install it, we worked with `npm install` not `yarn`
         stage('OWASP Dependency Check') {
             steps {
                 script {
@@ -72,9 +72,10 @@ pipeline {
 
                     for (dir in ["./gateway", "./services/lab-treatment-service", "./services/patient-registration-service", "./services/ward-admissions-service"]) {
                         sh "cd ${dir} && npm install"
-                        sh "${dp_check_loc}/bin/dependency-check.sh --enableExperimental --project f21ao-dev --scan ${dir} --out . --format HTML"
+                        sh "${dp_check_loc}/bin/dependency-check.sh --enableExperimental --project f21ao-dev --scan ${dir} --out . --format HTML --disableYarnAudit"
                     }
                 }
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
 
             }
         }
