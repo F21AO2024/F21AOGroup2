@@ -84,9 +84,10 @@ pipeline {
         stage('Build and Tag Docker Images') {
             steps {
                 script {
-                    def docker = tool 'docker-latest'
-                    sh "chmod +x ${docker}"
-                    sh "${docker} compose -f docker-compose.yml build"
+                    def dockerHome = tool 'docker-latest'
+                    def dockerBin = "${dockerHome}/bin/docker"
+                    sh "chmod +x ${dockerBin}"
+                    sh "${dockerBin} compose -f docker-compose.yml build"
                 }
             }
         }
