@@ -85,6 +85,7 @@ pipeline {
             steps {
                 script {
                     def docker = tool 'docker-latest'
+                    sh "chmod +x ${docker}"
                     sh "${docker} compose -f docker-compose.yml build"
                 }
             }
