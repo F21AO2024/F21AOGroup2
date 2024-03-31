@@ -114,8 +114,20 @@ pipeline {
                     }     
                 }
             }
+        }
+        post {
+            always {
+                emailtext attachLog: true,
+                subject: "'${currentBuild.result}'",
+                body: "Project: ${env.JOB_NAME} <br />" +
+                "Build Number: ${env.BUILD_NUMBER} <br />" +
+                "URI: ${env.BUILD_URI} <br />",
+                to: 'ekaterina.larch@gmail.com',
+                attachmentsPattern: 'f21ao-dev-branch-trivy-report.html'
+            }
         }  
-        
+
+
         
         
 
