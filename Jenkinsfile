@@ -59,13 +59,13 @@ pipeline {
         }
         //stage 5: Sonar quality gate - hint: comment out when you demo this, 
         //quality gate takes a pretty long time, around ~1 hour. But it passes!, code base is large
-        stage('Pass SonarQube Quality Gate') {
-            steps {
-                script {
-                        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token-dev'
-                }
-            }
-        }
+        // stage('Pass SonarQube Quality Gate') {
+        //     steps {
+        //         script {
+        //                 waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token-dev'
+        //         }
+        //     }
+        // }
         //stage 6: OWASP dependency check
         stage('OWASP Dependency Check') {
             steps {

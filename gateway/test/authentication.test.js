@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-import { should, use, expect } from "chai";
+import {expect } from "chai";
 import supertest from "supertest";
 import server from "../index.js";
 

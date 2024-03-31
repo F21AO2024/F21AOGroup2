@@ -165,21 +165,4 @@ export const changePassword = async (req, res) => {
   }
 };
 
-//added a controller method to fetch employee by id.
-// export const getUserById = async (req, res) => {
-//   try {
-//     const user = await prisma.hospitalEmployee.findUnique({
-//       where: {
-//         id: req.params.id,
-//       },
-//     });
 
-//     if (!user) {
-//       return res.status(400).json({ error: "User does not exist" });
-//     }
-
-//     res.status(200).json(user);
-//   } catch (error) {
-//     res.status(400).json({ error: error.message });
-//   }
-// };
