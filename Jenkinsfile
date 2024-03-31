@@ -99,20 +99,21 @@ pipeline {
             }
         }
 
-        stage('Docker pushing') {
-            steps {
-                script {
-                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-                    sh 'docker compose push notvolk/zlf21ao-containers'
-                }     
-            }
-        }
+        //unsafe code
+        // stage('Docker pushing') {
+        //     steps {
+        //         script {
+        //             sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+        //             sh 'docker compose push notvolk/zlf21ao-containers'
+        //         }     
+        //     }
+        // }
 
         // stage('Docker pushing') {
         //     steps {
         //         script {
         //             withDockerRegistry([credentialsId: 'docker-cred', url: 'https://index.docker.io/v1/']) {
-        //                 sh 'docker compose push notvolk/zlf21ao-containers'
+        //                 sh 'docker compose push '
         //         }     
         //     }
         // }
