@@ -7,58 +7,54 @@ pipeline {
     }
     environment {
         DOCKER_COMPOSE_VERSION = '3.9'
-        SCANNER_HOME = tool 'sonar-5.0.0.2966'
+        SCANNER_HOME = tool 'sonar-scanner'
         DOCKER_USERNAME = credentials('docker-cred')
         DOCKER_PASSWORD = credentials('docker-cred')
     }
 
     stages { 
-        // stage 1 checkout the code from the repository
-        stage('Git Checkout') {
+        //stage 1: clean the workspace
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        // stage 2: checkout the code from the repository
+        stage('Checkout from Git') {
             steps {
                 git url: 'https://github.com/F21AO2024/F21AOGroup2.git', branch: 'dev'
             }
         }
-        // stage 2 check if environment are present
-        stage('Check NodeJS Environment') {
-            steps {
-                sh 'echo "Checking Environment..."'
-                sh 'node -v'
-                sh 'npm -v'
-                sh 'docker --version'
-                sh 'trivy --version'
-            }
-        }
-        //stage 3: file system scan with trivy
+
+        //stage 3: scan the checked out code with trivy
         stage('Trivy Scan') {
             steps {
-                //check if trivy exists if not install it
-                    sh 'trivy fs --format table -o trivy-report.html .'
+                    sh 'trivy fs --format table -o f21ao-dev-branch-trivy-report.html .'
+            }
+        }
+        //stage 4: sonarqube scan
+        stage('SonarQube Scan') {
+            steps {
+                withSonarQubeEnv('SonarQube Server') {
+                    //for simplicity keep the project key same as project name
+                    sh ''' 
+                    $SCANNER_HOME/bin/sonar-scanner -X \
+                    -Dsonar.projectName="f21ao-ops" \
+                    -Dsonar.projectKey="f21ao-ops" \
+                    -Dsonar.sources=./gateway,./services/lab-treatment-service,./services/patient-registration-service,./services/ward-admissions-service
+                    '''
                 }
             }
-            //stage 4: sonarqube scan
-            stage('SonarQube Scan') {
-                steps {
-                    withSonarQubeEnv('SonarQube Server') {
-                        //for simplicity keep the rpojct key same as project name
-                        sh ''' 
-                        $SCANNER_HOME/bin/sonar-scanner -X \
-                        -Dsonar.projectName="f21ao-ops" \
-                        -Dsonar.projectKey="f21ao-ops" \
-                        -Dsonar.sources=./gateway,./services/lab-treatment-service,./services/patient-registration-service,./services/ward-admissions-service
-                        '''
-                    }
+        }
+        //stage 5: Sonar quality gate - it hangs here for some reason
+        stage('Quality Gate') {
+            steps {
+                script {
+                        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token-dev'
                 }
             }
-            //stage 5: Sonar quality gate - it hangs here for some reason
-            stage('Quality Gate') {
-                steps {
-                    script {
-                            waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token-dev'
-                    }
-                }
-            }
-
+        }
 
         //stage 6 build the docker images via docker compose
         stage('Build All Docker Images') {
