@@ -6,7 +6,7 @@ pipeline {
         dockerTool 'docker-latest'
     }
     environment {
-        DOCKER_COMPOSE_VERSION = '3.9'
+        // DOCKER_COMPOSE_VERSION = '3.9'
         SCANNER_HOME = tool 'sonar-scanner'
     }
 
@@ -66,17 +66,18 @@ pipeline {
         // }
         //stage 6: OWASP dependency check
         stage('OWASP Dependency Check') {
-            steps {
-                script {
-                    def dp_check_loc = tool 'dp-check'
+        steps {
+            script {
+                def dp_check_loc = tool 'dp-check'
 
-                    for (dir in ["./gateway", "./services/lab-treatment-service", "./services/patient-registration-service", "./services/ward-admissions-service"]) {
-                        sh "${dp_check_loc}/bin/dependency-check.sh --enableExperimental --project f21ao-dev --scan ${dir} --out . --format HTML"
-                    }
+                for (dir in ["./gateway", "./services/lab-treatment-service", "./services/patient-registration-service", "./services/ward-admissions-service"]) {
+                    def reportName = "dependency-check-report-${dir.replace('/', '-')}.html"
+                    sh "${dp_check_loc}/bin/dependency-check.sh --enableExperimental --project f21ao-dev --scan ${dir} --out . --format HTML --reportFileName ${reportName}"
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '.', reportFiles: reportName, reportName: "OWASP Report - ${dir}", reportTitles: "OWASP Report - ${dir}"])
                 }
-
             }
         }
+    }
 
         //stage 7 build the docker images via docker compose
         //use Docker Pipeline Plugin, to point to Jenkins Global tool config `docker-latest`
@@ -115,6 +116,8 @@ pipeline {
         }  
 
         
+
+
 
 
 
