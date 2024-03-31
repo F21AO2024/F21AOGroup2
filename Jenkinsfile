@@ -121,10 +121,9 @@ pipeline {
                 script {
                     withDockerRegistry([credentialsId: 'docker-cred', url: '']) {
                         sh 'docker compose push '
-                }     
+                    }     
+                }
             }
-        }
-
-        
-        }
+        }   
     }
+}
