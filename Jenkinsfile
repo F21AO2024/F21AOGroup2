@@ -82,7 +82,7 @@ pipeline {
 
         //stage 7 build the docker images via docker compose
         //use Docker Pipeline Plugin, to point to Jenkins Global tool config `docker-latest`
-        stage('Build and Tag Docker Images') {
+        stage('Docker compose image build') {
             steps {
                 script {
                     docker.withTool('docker-latest') {
@@ -94,8 +94,8 @@ pipeline {
             }
         }
         
-        //stage 7: docker image scan
-        stage('Docker image scan') {
+        //stage 8: docker image scan
+        stage('Docker trivy image scan') {
             steps {
                 script {
                     def imageList = ['notvolk/zlf21ao-containers:ward-1.0.3', 'notvolk/zlf21ao-containers:reg-1.0.3', 'notvolk/zlf21ao-containers:lab-1.0.3', 'notvolk/zlf21ao-containers:gateway-1.0.3']
@@ -105,18 +105,8 @@ pipeline {
                 }
             }
         }
-
-        //unsafe code
-        // stage('Docker pushing') {
-        //     steps {
-        //         script {
-        //             sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-        //             sh 'docker compose push notvolk/zlf21ao-containers'
-        //         }     
-        //     }
-        // }
-
-        stage('Docker pushing') {
+        //stage 9: push all images to dockerhub (publiclly), you can find and pull all images searching `notvolk/zlf21ao-containers`
+        stage('Docker compose push image to DockerHub') {
             steps {
                 script {
                     withDockerRegistry([credentialsId: 'docker-cred', url: '']) {
@@ -124,6 +114,10 @@ pipeline {
                     }     
                 }
             }
-        }   
+        }  
+
+
+
+
     }
 }
