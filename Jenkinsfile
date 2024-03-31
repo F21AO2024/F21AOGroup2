@@ -107,14 +107,14 @@ pipeline {
         }
 
         //unsafe code
-        // stage('Docker pushing') {
-        //     steps {
-        //         script {
-        //             sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-        //             sh 'docker compose push notvolk/zlf21ao-containers'
-        //         }     
-        //     }
-        // }
+        stage('Docker pushing') {
+            steps {
+                script {
+                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                    sh 'docker compose push notvolk/zlf21ao-containers'
+                }     
+            }
+        }
 
         // stage('Docker pushing') {
         //     steps {
