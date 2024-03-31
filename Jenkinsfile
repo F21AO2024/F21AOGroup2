@@ -98,7 +98,7 @@ pipeline {
         stage('Docker image scan') {
             steps {
                 script {
-                    def imageList = ['notvolk/zlf21ao-containers:ward-1.0.3', 'notvolk/zlf21ao-containers:patient-1.0.3', 'notvolk/zlf21ao-containers:lab-1.0.3', 'notvolk/zlf21ao-containers:gateway-1.0.3']
+                    def imageList = ['notvolk/zlf21ao-containers:ward-1.0.3', 'notvolk/zlf21ao-containers:reg-1.0.3', 'notvolk/zlf21ao-containers:lab-1.0.3', 'notvolk/zlf21ao-containers:gateway-1.0.3']
                     for (image in imageList) {
                         sh "trivy image --format table -o trivy-report-${image.replace('/', '-').replace(':', '-')}.html ${image}"
                     }
