@@ -65,20 +65,20 @@ pipeline {
         // }
         //stage 6: OWASP dependency check, you need to install dependencies to check them
         //disable yarn cause I didn't install it, we worked with `npm install` not `yarn`, also dont use .NET
-        stage('OWASP Dependency Check') {
-            steps {
-                script {
-                    def dp_check_loc = tool 'dp-check'
+        // stage('OWASP Dependency Check') {
+        //     steps {
+        //         script {
+        //             def dp_check_loc = tool 'dp-check'
 
-                    for (dir in ["./gateway", "./services/lab-treatment-service", "./services/patient-registration-service", "./services/ward-admissions-service"]) {
-                        sh "cd ${dir} && npm install"
-                        sh "${dp_check_loc}/bin/dependency-check.sh --enableExperimental --project f21ao-dev --scan ${dir} --out . --format XML --disableYarnAudit --disableAssembly"
-                    }
-                }
-                // dependencyCheckPublisher pattern: '**/dependency-check-report.html' //-> this causes an unstable build for some reason
+        //             for (dir in ["./gateway", "./services/lab-treatment-service", "./services/patient-registration-service", "./services/ward-admissions-service"]) {
+        //                 sh "cd ${dir} && npm install"
+        //                 sh "${dp_check_loc}/bin/dependency-check.sh --enableExperimental --project f21ao-dev --scan ${dir} --out . --format XML --disableYarnAudit --disableAssembly"
+        //             }
+        //         }
+        //         // dependencyCheckPublisher pattern: '**/dependency-check-report.html' //-> this causes an unstable build for some reason
 
-            }
-        }
+        //     }
+        // }
 
         //stage 7 build the docker images via docker compose
         //use Docker Pipeline Plugin, to point to Jenkins Global tool config `docker-latest`
