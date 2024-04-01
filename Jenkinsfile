@@ -75,7 +75,7 @@ pipeline {
                         sh "${dp_check_loc}/bin/dependency-check.sh --enableExperimental --project f21ao-dev --scan ${dir} --out . --format XML --disableYarnAudit --disableAssembly"
                     }
                 }
-                dependencyCheckPublisher pattern: '**/dependency-check-report.html'
+                // dependencyCheckPublisher pattern: '**/dependency-check-report.html'
 
             }
         }
@@ -143,7 +143,7 @@ pipeline {
                  body: "Project: ${env.JOB_NAME} \n" +
                        "Build Number: ${env.BUILD_NUMBER} \n" +
                        "URI: ${env.BUILD_URL} \n",
-                 to: 'lady@domain.com',
+                 to: 'ekaterina.larch@gmail.com',
                  attachLog: true,
                  attachmentsPattern: '**/f21ao-dev-branch-trivy-report.html'
     }
