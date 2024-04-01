@@ -125,8 +125,9 @@ pipeline {
         stage('Check K8s') {
             steps {
                 withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8s-service-token', namespace: 'f21ao-ops', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.5.101:6443') {
-                    sh 'kubectl get pods -n f21ao-ops -o wide'
-                    // sh 'kubectl get svc -n f21ao-ops'
+                    sh 'kubectl get pods -n f21ao-ops -o wide' //see which pods are running + which worker
+                    sh 'kubectl get service -n f21ao-ops' //see which service expose
+                    sh 'kubectl get nodes -o wide' //to get the ip
                 }
             }
         }

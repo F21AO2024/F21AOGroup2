@@ -30,7 +30,7 @@ metadata:
   name: ward-admissions-service
   namespace: f21ao-ops
 spec:
-  type: NodePort
+  type: LoadBalancer #Prev was NodePort
   selector:
     app: ward-admissions
   ports:
@@ -69,7 +69,7 @@ metadata:
   name: patient-registration-service
   namespace: f21ao-ops
 spec:
-  type: NodePort
+  type: LoadBalancer #NodePort
   selector:
     app: patient-registration
   ports:
@@ -108,7 +108,7 @@ metadata:
   name: lab-treatment-service
   namespace: f21ao-ops
 spec:
-  type: NodePort
+  type: LoadBalancer #NodePort
   selector:
     app: lab-treatment
   ports:
@@ -147,7 +147,7 @@ metadata:
   name: gateway-service
   namespace: f21ao-ops
 spec:
-  type: NodePort
+  type: LoadBalancer #NodePort
   selector:
     app: gateway
   ports:
