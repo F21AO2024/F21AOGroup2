@@ -138,14 +138,14 @@ pipeline {
 
     }
     post {
-        always {
-            mail subject: "Build '${currentBuild.result}'",
-                body: "Project: ${env.JOB_NAME} \n" +
-                    "Build Number: ${env.BUILD_NUMBER} \n" +
-                    "URI: ${env.BUILD_URL} \n",
-                to: 'ekaterina.larch@gmail.com',
-                attachLog: true,
-                attachmentsPattern: '**/f21ao-dev-branch-trivy-report.html'
-        }
+    always {
+        emailext subject: "Build '${currentBuild.result}'",
+                 body: "Project: ${env.JOB_NAME} \n" +
+                       "Build Number: ${env.BUILD_NUMBER} \n" +
+                       "URI: ${env.BUILD_URL} \n",
+                 to: 'lady@domain.com',
+                 attachLog: true,
+                 attachmentsPattern: '**/f21ao-dev-branch-trivy-report.html'
     }
+}
 }
