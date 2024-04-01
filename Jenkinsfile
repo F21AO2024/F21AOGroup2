@@ -145,7 +145,7 @@ pipeline {
                     "URI: ${env.BUILD_URL} \n",
                 to: 'ekaterina.larch@gmail.com',
                 attachLog: true,
-                attachmentsPattern: 'f21ao-dev-branch-trivy-report.html'
+                attachmentsPattern: '**/f21ao-dev-branch-trivy-report.html'
         }
     }
 }
