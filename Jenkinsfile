@@ -115,18 +115,21 @@ pipeline {
                 }
             }
         }
-        // stage('Deploy to K8s') {
-        //     steps {
-        //         script {
-        //             withKubeConfig([caCertificate: '', clusterName: 'kubernetes', credentialsId: 'k8s-cred']) {
-        //                 sh 'kubectl apply -f deployment.yaml'
-        //                 sh 'kubectl get pods --all-namespaces'
-        //                 sh 'kubectl get svc -n webspace'
-
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Deploy to k8s') {
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8s-service-token', namespace: 'f21ao-ops', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.5.101:6443') {
+                    sh 'kubectl apply -f deploy2k8s.yaml'
+                }
+            }
+        }
+        stage('Check K8s') {
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8s-service-token', namespace: 'f21ao-ops', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.5.101:6443') {
+                    sh 'kubectl get pods -n f21ao-ops'
+                    sh 'kubectl get svc -n f21ao-ops'
+                }
+            }
+        }
 
 
         
