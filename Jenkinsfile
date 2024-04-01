@@ -125,7 +125,7 @@ pipeline {
         stage('Check K8s') {
             steps {
                 withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8s-service-token', namespace: 'f21ao-ops', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.5.101:6443') {
-                    sh 'kubectl get pods -n f21ao-ops'
+                    sh 'kubectl get pods -n f21ao-ops -o wide'
                     sh 'kubectl get svc -n f21ao-ops'
                 }
             }
@@ -152,4 +152,14 @@ pipeline {
     }
 }
 }
-//eyJhbGciOiJSUzI1NiIsImtpZCI6IjdzR0pFR0ZtaW5LQjkzaVJ2aHN0c0l4a3RkNTdIbHBOMGtBLVRuRFZ0aXcifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJmMjFhby1vcHMiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoiZjIxYW8tc2VjcmV0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJmMTkzNmMzOS01NTc0LTQ2MzAtOWVlNS01NTcxN2YyYjdhZWQiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZjIxYW8tb3BzOmplbmtpbnMifQ.f62riihfTkSFf6lzmqtstWQavsdDHWMhGy1NAPQUgLNFv0qzT22KSx82Y3XEzXUMS_fDLIE00JUCz-gwSTIRyfBa8bS7LBIvTbbO3iEkG5cgJdk18a9VpeYjUtFONAjyx2yGtzq4TvNiR7O8b0Ax9GtXJiOI7OsDoucAZ4f9qsGjsBXCfzIDysDc-eeerNkOiYWWfvm8r9Vboulm1yC_wT41RfJpFnYoqnfRA3bqdnuFtBgbs59DpmlVeqnkhbPW-pMUcqwFYQ6iYB56RFEOvI76jfDcW56s-3pG7rXkaQYHmdriT3l1TatEBDu_zY6WnRnsPlJsUJrOjisjfbFDHw
+/*
+kubectl create ns f21ao-ops
+kubectl apply -f service-acc.yaml
+kubectl apply -f role.yaml
+kubectl apply -f bind_roles.yaml
+kubectl apply -f token-service.yaml -n f21ao-ops
+kubectl describe secret f21ao-secret -n f21ao-ops
+
+
+eyJhbGciOiJSUzI1NiIsImtpZCI6IjdzR0pFR0ZtaW5LQjkzaVJ2aHN0c0l4a3RkNTdIbHBOMGtBLVRuRFZ0aXcifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJmMjFhby1vcHMiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoiZjIxYW8tc2VjcmV0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJjMTE1ODRhOC1mNmJhLTRiNDMtODUxOC1iMDRlNDNmMDMwNGEiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZjIxYW8tb3BzOmplbmtpbnMifQ.oCs-h12_t5qEwEqn6yG-blQJXYovjbHuvIMyQR1f1psdZB3i6q5Y7e1QIy6pyILUfNOT_Za3g2xuivZebNuIsDjsqI7vosdIARG1Lb9F28i08gz8kdPGClOYHlV4yA9fNEGVX_TwFPrYaTs-8obnmfATQuBsMs9XncK3UlEZzJBKqUnM6F94uyVMAD1BwK9aa9AlS9BYPMIsFLhUePjTU9tj5J7x7XIuWmMX6V3EcDulrOH5jezaSu_G6DMex-D2f0Mq1_f0r6bQPI7TdJxTnjg4BkNGPwejeEYFuwGMM5Cqw3cTCIcjBAhcK3uf-nEbyVoewALsxxxsMiT8bJSWrQ
+*/

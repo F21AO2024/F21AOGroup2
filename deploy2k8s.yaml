@@ -4,7 +4,7 @@ metadata:
   name: ward-admissions
   namespace: f21ao-ops
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: ward-admissions
@@ -26,7 +26,7 @@ metadata:
   name: patient-registration
   namespace: f21ao-ops
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: patient-registration
@@ -48,7 +48,7 @@ metadata:
   name: lab-treatment
   namespace: f21ao-ops
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: lab-treatment
@@ -70,7 +70,7 @@ metadata:
   name: gateway
   namespace: f21ao-ops
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: gateway
