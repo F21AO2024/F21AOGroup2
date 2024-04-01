@@ -115,6 +115,18 @@ pipeline {
                 }
             }
         }
+        // stage('Deploy to K8s') {
+        //     steps {
+        //         script {
+        //             withKubeConfig([caCertificate: '', clusterName: 'kubernetes', credentialsId: 'k8s-cred']) {
+        //                 sh 'kubectl apply -f deployment.yaml'
+        //                 sh 'kubectl get pods --all-namespaces'
+        //                 sh 'kubectl get svc -n webspace'
+
+        //             }
+        //         }
+        //     }
+        // }
 
 
         
@@ -126,14 +138,14 @@ pipeline {
 
     }
     post {
-            always {
-                emailtext attachLog: true,
-                subject: "'${currentBuild.result}'",
-                body: "Project: ${env.JOB_NAME} <br />" +
-                "Build Number: ${env.BUILD_NUMBER} <br />" +
-                "URI: ${env.BUILD_URI} <br />",
+        always {
+            mail subject: "Build '${currentBuild.result}'",
+                body: "Project: ${env.JOB_NAME} \n" +
+                    "Build Number: ${env.BUILD_NUMBER} \n" +
+                    "URI: ${env.BUILD_URL} \n",
                 to: 'ekaterina.larch@gmail.com',
+                attachLog: true,
                 attachmentsPattern: 'f21ao-dev-branch-trivy-report.html'
-            }
-        }  
+        }
+    }
 }
