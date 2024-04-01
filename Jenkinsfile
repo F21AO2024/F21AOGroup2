@@ -140,21 +140,13 @@ pipeline {
 
 
     }
-    post {
-    always {
-        emailext subject: "Build '${currentBuild.result}'",
-                 body: "Project: ${env.JOB_NAME} \n" +
-                       "Build Number: ${env.BUILD_NUMBER} \n" +
-                       "URI: ${env.BUILD_URL} \n",
-                 to: 'ekaterina.larch@gmail.com',
-                 attachLog: true,
-                 attachmentsPattern: '**/f21ao-dev-branch-trivy-report.html'
-    }
-}
+    
 }
 /*
-//check existing namespaces
+//check existing namespaces/pods
+kubectl get nodes
 kubectl get namespaces
+kubectl get pods -n f21ao-ops -o wide
 
 //creation of namespace, service acc, token credential, and role binding for jenkins to talk to k8s
 kubectl create ns f21ao-ops
